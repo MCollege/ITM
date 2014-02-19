@@ -1,4 +1,6 @@
 ITM
 ===
 
-Group 
+Group Code
+
+Will add members when they register

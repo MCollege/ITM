@@ -45,13 +45,24 @@
                 <td><asp:Label ID="Label2" runat="server" Font-Bold="true" Text="Project Class"></asp:Label></td>
                 <td colspan="2">
                     <asp:RadioButtonList ID="rbtnProjectClass" runat="server" RepeatDirection="Horizontal" AutoPostBack="true">
-                        <asp:ListItem Title="'Small' teams with 'good' experience working with 'less than rigid' requirements">Organic</asp:ListItem>
+                        <asp:ListItem Selected="True" Title="'Small' teams with 'good' experience working with 'less than rigid' requirements">Organic</asp:ListItem>
                         <asp:ListItem Title="'Medium' teams with mixed experience working with a mix of rigid and less than rigid requirements">Semi-Detached</asp:ListItem>
                         <asp:ListItem Title="Developed within a set of 'tight' constraints. It is also combination of organic and semi-detached projects.(hardware, software, operational, ...)">Embedded</asp:ListItem>
                     </asp:RadioButtonList>
 
                     <asp:RequiredFieldValidator ID="ProjectClassReq" ControlToValidate="rbtnProjectClass" Display="none" ErrorMessage="This is a required field." runat="server" SetFocusOnError="true" ValidationGroup="On"></asp:RequiredFieldValidator>
                     <ajax:ValidatorCalloutExtender ID="ProjectClassReqE" runat="server" TargetControlID="ProjectClassReq"></ajax:ValidatorCalloutExtender>
+                </td>
+            </tr>
+
+            <tr>
+                <td><asp:Label ID="Label5" runat="server" Font-Bold="true" Text="Cost per Person-Month"></asp:Label></td>
+                <td>
+                    <asp:TextBox ID="txtCostPersonMonth" Width="70px" runat="server" style="text-align:right;" ></asp:TextBox>                 
+                    
+                    <ajax:FilteredTextBoxExtender runat="server" ID="txtCostPersonMonthE" TargetControlID="txtCostPersonMonth" FilterType="Numbers,Custom" ValidChars="."></ajax:FilteredTextBoxExtender>
+                    <asp:RequiredFieldValidator ID="CostPersonMonthReq" ControlToValidate="txtCostPersonMonth" Display="none" ErrorMessage="This is a required field." runat="server" SetFocusOnError="true" ValidationGroup="On"></asp:RequiredFieldValidator>
+                    <ajax:ValidatorCalloutExtender ID="CostPersonMonthReqE" runat="server" TargetControlID="CostPersonMonthReq"></ajax:ValidatorCalloutExtender>
                 </td>
             </tr>
         </table>
@@ -92,14 +103,7 @@
                 <td><asp:Label ID="lblDocumentation" runat="server" Text="Nominal" ></asp:Label></td>
             </tr>
 
-            <tr>
-                <td><asp:Label ID="Label5" runat="server" Font-Bold="true" Text="Cost per Person-Month"></asp:Label></td>
-                <td><asp:TextBox ID="txtCostPersonMonth" Width="70px" runat="server" style="text-align:right;" ></asp:TextBox></td>
-                <ajax:FilteredTextBoxExtender runat="server" ID="txtCostPersonMonthE" TargetControlID="txtCostPersonMonth" FilterType="Numbers,Custom" ValidChars="."></ajax:FilteredTextBoxExtender>
-            
-                <asp:RequiredFieldValidator ID="CostPersonMonthReq" ControlToValidate="txtCostPersonMonth" Display="none" ErrorMessage="This is a required field." runat="server" SetFocusOnError="true" ValidationGroup="On"></asp:RequiredFieldValidator>
-                <ajax:ValidatorCalloutExtender ID="CostPersonMonthReqE" runat="server" TargetControlID="CostPersonMonthReq"></ajax:ValidatorCalloutExtender>
-            </tr>
+           
 
         </table>
     </div>
@@ -134,7 +138,7 @@
                 <td><asp:Label ID="Label12" runat="server" Font-Bold="true" Text="People Required"></asp:Label></td>
                 <td>
                 <asp:Label ID="lblPeople" runat="server" Font-Bold="true"></asp:Label>
-                    <asp:Label ID="Label17" runat="server" Font-Bold="true" Text="People"></asp:Label>
+                    <asp:Label ID="lblPeopleLabel" runat="server" Font-Bold="true" Text="People"></asp:Label>
                 </td>
             </tr>
             <tr>
@@ -238,8 +242,8 @@
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
-    
+       
     </div>
-
+  
 </asp:Content>
 

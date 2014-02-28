@@ -155,7 +155,7 @@ Public Class Helper
 
     Shared Function InsertProject(ByVal strProjectName As String, ByVal intFunctionPoints As Integer, ByVal strLanguage As String, ByVal strProjectClass As String, ByVal intProgCap As Integer,
                                   ByVal intLangExp As Integer, ByVal intSoftComplex As Integer, ByVal intDocumentation As Integer, ByVal intCostPerPM As Integer, ByVal intLOC As Integer,
-                                  ByVal decEffort As Decimal, ByVal decSchedule As Decimal, ByVal intPeople As Integer, ByVal intCost As Integer) As String
+                                  ByVal decEffort As Decimal, ByVal decSchedule As Decimal, ByVal intPeople As Integer, ByVal intCost As Integer, ByVal strStartDate As String, ByVal strEndDate As String) As String
         Dim conn As SqlConnection = Nothing
 
         Try
@@ -166,9 +166,9 @@ Public Class Helper
             Dim cmd As SqlCommand = conn.CreateCommand()
 
             Dim sb As New StringBuilder
-            sb.AppendFormat("INSERT INTO Projects(ProjectName,FunctionPoints,Language,ProjectClass,ProgCap,LangExp,SoftComplex,Documentation,CostPerPM,LoC,Effort,Schedule,People,Cost) ")
-            sb.AppendFormat("VALUES('{0}',{1},'{2}','{3}',{4},{5},{6},{7},{8},{9},{10},{11},{12},{13})", strProjectName.Replace("'", "''"), intFunctionPoints, strLanguage, strProjectClass, intProgCap, intLangExp, intSoftComplex,
-                            intDocumentation, intCostPerPM, intLOC, decEffort, decSchedule, intPeople, intCost)
+            sb.AppendFormat("INSERT INTO Projects(ProjectName,FunctionPoints,Language,ProjectClass,ProgCap,LangExp,SoftComplex,Documentation,CostPerPM,LoC,Effort,Schedule,People,Cost,StartDate,EndDate) ")
+            sb.AppendFormat("VALUES('{0}',{1},'{2}','{3}',{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},'{14}','{15}')", strProjectName.Replace("'", "''"), intFunctionPoints, strLanguage, strProjectClass, intProgCap, intLangExp, intSoftComplex,
+                            intDocumentation, intCostPerPM, intLOC, decEffort, decSchedule, intPeople, intCost, strStartDate, strEndDate)
 
 
             cmd.CommandText = sb.ToString
@@ -216,6 +216,9 @@ Public Class Helper
                 GetSavedProjectData.Add(rdr.GetValue(12), "Schedule")
                 GetSavedProjectData.Add(rdr.GetValue(13), "People")
                 GetSavedProjectData.Add(rdr.GetValue(14), "Cost")
+                ' JAG
+                GetSavedProjectData.Add(rdr.GetValue(15), "StartDate")
+                GetSavedProjectData.Add(rdr.GetValue(16), "EndDate")
             End While
 
             rdr.Close()

@@ -15,11 +15,10 @@ Partial Class _Default
     Protected Sub Page_LoadComplete(sender As Object, e As System.EventArgs) Handles Me.LoadComplete
         DisplaySliderLabels()
         CalculateResults()
+
         If Not IsPostBack Then
             LoadPreviousProjects()
         End If
-
-
 
     End Sub
 
@@ -73,7 +72,19 @@ Partial Class _Default
 
         ' Calculate Development Time (Schedule)
         Dim decSchedule As Decimal = factC * (Math.Pow(decEffort, factD))
-        lblSchedule.Text = Math.Round(decSchedule, 1)
+        lblSchedule.Text = Math.Round(decSchedule, 2)
+
+
+        ' JAG
+        ' convert dev time to days assume 8h/d, 5d/w, 20d/m
+        Dim durDays As Integer = Math.Truncate(decSchedule * 20)
+        If txtStartDate.Text = "" Then
+            txtStartDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
+        End If
+
+        Dim csCode As Common = New Common()
+        lblEndDate.Text = csCode.GetLastDate(txtStartDate.Text, durDays).ToString("MMM dd, yyyy")
+
 
         ' Calculate People Required
         Dim intPeople As Integer = If(decSchedule = 0, 0, decEffort / decSchedule)
@@ -107,6 +118,7 @@ Partial Class _Default
         txtProjectName.Text = ""
         txtFunctionPoints.Text = ""
         ddlLanguage.SelectedValue = "Select Language"
+        txtStartDate.Text = ""
 
         txtProgCap.Text = 2
         lblProgCap.Text = "Nominal"
@@ -158,6 +170,9 @@ Partial Class _Default
 
     Protected Sub LoadSavedData(ByVal coll As Collection)
         txtProjectName.Text = coll("ProjectName")
+        ' JAG
+        txtStartDate.Text = DateTime.Parse(coll("StartDate")).ToString("MM/dd/yyyy")
+        lblEndDate.Text = coll("EndDate")
         txtFunctionPoints.Text = coll("FunctionPoints")
         ddlLanguage.SelectedValue = coll("Language")
         rbtnProjectClass.SelectedValue = coll("ProjectClass")
@@ -200,9 +215,13 @@ Partial Class _Default
         Dim decSchedule As Decimal = lblSchedule.Text
         Dim intPeople As Integer = lblPeople.Text
         Dim intCost As Integer = lblFinalCost.Text
+        ' JAG - format dates before DB entry
+        Dim strStartDate As String = DateTime.Parse(txtStartDate.Text).ToString("MM/dd/yyyy")
+        Dim strEndDate As String = DateTime.Parse(lblEndDate.Text).ToString("MM/dd/yyyy")
+
 
         Master.Notify(InsertProject(strProjectName, intFunctionPoints, strLanguage, strProjectClass, intProgCap, intLangExp, intSoftComplex,
-                                    intDocumentation, intCostPerPM, intLOC, decEffort, decSchedule, intPeople, intCost))
+                                    intDocumentation, intCostPerPM, intLOC, decEffort, decSchedule, intPeople, intCost, strStartDate, strEndDate))
 
         LoadPreviousProjects()
     End Sub

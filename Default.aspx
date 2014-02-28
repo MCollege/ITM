@@ -19,6 +19,28 @@
                 <asp:Label ID="lblIDNo" runat="server" Visible="false"></asp:Label>
 
             </tr>
+            <%--JAG--%> 
+            <tr>
+                <td><asp:Label ID="lblDispStartDate" runat="server" Font-Bold="true" Text="Start Date"></asp:Label></td>
+                <td><asp:TextBox ID="txtStartDate" Width="150px" runat="server" ></asp:TextBox></td>
+                <ajax:CalendarExtender ID="txtStateDateE" runat="server" TargetControlID="txtStartDate" Format="MM/dd/yyyy"></ajax:CalendarExtender>
+                
+                <asp:RegularExpressionValidator 
+                    ID="regexStartDate" 
+                    runat="server" 
+                    ControlToValidate="txtStartDate" 
+                    ErrorMessage="Incorrect format (mm/dd/yyyy)"
+                    ValidationExpression="^(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])/(19|20)\d\d$"
+                    ValidationGroup="On" SetFocusOnError="true"
+                    Display="None">
+                </asp:RegularExpressionValidator>
+
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtStartDate" Display="none" ErrorMessage="This is a required field." runat="server" ValidationGroup="On" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                <ajax:ValidatorCalloutExtender ID="ValidatorCalloutExtender1" runat="server" TargetControlID="RequiredFieldValidator1"></ajax:ValidatorCalloutExtender>
+                <ajax:ValidatorCalloutExtender ID="ValidatorCalloutExtender2" runat="server" TargetControlID="regexStartDate"></ajax:ValidatorCalloutExtender>
+
+            </tr>
+            <%--JAG--%>
             <tr>
                 <td><asp:Label runat="server" Font-Bold="true" Text="Function Points"></asp:Label></td>
                 <td><asp:TextBox ID="txtFunctionPoints" Width="70px" runat="server" style="text-align:right;" ></asp:TextBox></td>
@@ -134,6 +156,14 @@
                     <asp:Label ID="Label16" runat="server" Font-Bold="true" Text="Months"></asp:Label>
                 </td>
             </tr>
+            <%--JAG--%>
+            <tr>
+                <td><asp:Label ID="lblDispEndDate" runat="server" Font-Bold="true" Text="End Date"></asp:Label></td>
+                <td>
+                    <asp:Label ID="lblEndDate" runat="server" Font-Bold="true" Text=""></asp:Label>
+                </td>            
+            </tr>
+            <%--JAG--%>
             <tr>
                 <td><asp:Label ID="Label12" runat="server" Font-Bold="true" Text="People Required"></asp:Label></td>
                 <td>
@@ -153,6 +183,18 @@
             <asp:LinkButton ID="btnSave" runat="server" ValidationGroup="On" >Save</asp:LinkButton>
             <asp:LinkButton ID="btnReset" runat="server" >Reset</asp:LinkButton>
         </center>
+
+        <%--<br />
+        <asp:LinkButton ID="btnImport" runat="server" >Import</asp:LinkButton>
+        <br /><br />
+        <asp:LinkButton ID="btnExport" runat="server" >Export</asp:LinkButton>
+        <br /><br />
+        <asp:RadioButtonList ID="radExport" runat="server" AutoPostBack="True" 
+            RepeatDirection="Horizontal">
+            <asp:ListItem Selected="True">Single</asp:ListItem>
+            <asp:ListItem Value="project">Project</asp:ListItem>
+            <asp:ListItem Value="all">All</asp:ListItem>            
+        </asp:RadioButtonList>--%>
 
     </div>
     <div class="clearfix"></div>
@@ -230,11 +272,25 @@
                     </ItemTemplate>
                 </asp:TemplateField>
 
+
+
+               <%--<asp:TemplateField HeaderText="Start Date">
+                    <ItemTemplate>
+                        <asp:Label ID="lblStartDate" runat="server" Text='<%# Bind("StartDate")%>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="End Date">
+                    <ItemTemplate>
+                        <asp:Label ID="lblebdDate" runat="server" Text='<%# Bind("EndDate")%>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>--%>
+
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:ImageButton ID="btnEdit" runat="server" ImageUrl="~/_images/icon-edit.gif" CommandName="Sel"/>
-                        <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="~/_images/bin_closed.png" CommandName="Del" ClientIDMode="Predictable"/>
-                        <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="~/_images/report.png" CommandName="Print"/>
+                        <asp:ImageButton ID="btnEdit" runat="server" ImageUrl="~/_images/icon-edit.gif" ToolTip="Select" CommandName="Sel"/>
+                        <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="~/_images/bin_closed.png" ToolTip="Delete" CommandName="Del" ClientIDMode="Predictable"/>
+                        <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="~/_images/report.png" ToolTip="Report" CommandName="Print"/>
                         
                         <ajax:ConfirmButtonExtender ID="confirmDelete" TargetControlID="btnDelete" ClientIDMode="Predictable" ConfirmText="Are you sure you want to permanently delete this project?" runat="server" ></ajax:ConfirmButtonExtender>
                     </ItemTemplate>                   
@@ -244,6 +300,6 @@
         </asp:GridView>
        
     </div>
-  
+    
 </asp:Content>
 
